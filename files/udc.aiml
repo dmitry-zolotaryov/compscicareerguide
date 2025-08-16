@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+    
+    <category>
+        <pattern>HI ^</pattern>
+        <template>
+            <condition name="stage">
+                <li value="end"><srai>FALLBACK</srai></li>
+                <li value="q1"><srai>FALLBACK</srai></li>
+                <li value="q2"><srai>FALLBACK</srai></li>
+                <li value="q3"><srai>FALLBACK</srai></li>
+                <li>
+                    Welcome! I’m your CS Career Advisor.  
+                    I’ll ask you three quick questions and then recommend a career path for you.  
+                    <br/><br/>
+                    Type "start quiz" when you’re ready.
+                </li>
+            </condition>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>HELLO ^</pattern>
+        <template>
+            <srai>HI <star /></srai>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>HEY ^</pattern>
+        <template>
+            <srai>HI <star /></srai>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>START QUIZ</pattern>
+        <template>
+            <think>
+                <set name="stage">q1</set>
+                <set name="a_web">0</set>
+                <set name="a_backend">0</set>
+                <set name="a_mobile">0</set>
+                <set name="a_cyber">0</set>
+                <set name="a_infra">0</set>
+            </think>
+            Great, let's get started with your first question<br />
+            <br />
+            Question 1:<br />
+            Which of the following languages have you enjoyed learning the most? (Answer with just the number)<br />
+            <br />
+            1) Javascript<br />
+            2) Java<br />
+            3) Swift or Kotlin<br />
+            4) C/C++<br />
+            5) Bash / Linux
+        </template>
+    </category>
+    
+    <category>
+        <pattern><set>choices</set></pattern>
+        <template>
+            <condition name="stage">
+                <li value="q1">
+                    <!-- Question 2 -->
+                    <think>
+                        <set name="stage">q2</set>
+                        <srai>INCREMENT <star /></srai>
+                    </think>
+                    What kinds of problems do you like solving the most?
+                    <br /><br />
+                    1) Building software for businesses<br/>
+                    2) Solving complex data collection and transformation problems<br/>
+                    3) Building user-friendly interfaces<br/>
+                    4) Finding a weakness in a piece of software<br/>
+                    5) Scaling software to millions of users
+                </li>
+                <li value="q2">
+                    <!-- Question 3 -->
+                    <think>
+                        <set name="stage">q3</set>
+                        <srai>INCREMENT <star /></srai>
+                    </think>
+                    What gives you a sense of accomplishment in your work?
+                    <br /><br />
+                    1) Seeing a large number of people use my product<br />
+                    2) The efficiency of the systems I built<br />
+                    3) The quality of the user experience<br />
+                    4) Becoming an expert in a complex system<br />
+                    5) Helping other engineers become more efficient
+                </li>
+                <li value="q3">
+                    <think>
+                        <set name="stage">end</set>
+                        <srai>INCREMENT <star /></srai>
+                    </think>
+                    Great, I think I have a recommendation for you:
+                    <br /><br />
+                    <srai>RESULT</srai>
+                </li>
+                <li><srai>FALLBACK</srai></li>
+            </condition>
+        </template>
+    </category>
+    
+    <!-- Increment logic to control the user's choices -->
+    <category>
+        <pattern>INCREMENT *</pattern>
+        <template>
+            <think>
+                <set name="answer"><star /></set>
+            </think>
+            <condition name="answer">
+                <li value="1"><srai>INCREMENT WEB</srai></li>
+                <li value="2"><srai>INCREMENT BACKEND</srai></li>
+                <li value="3"><srai>INCREMENT MOBILE</srai></li>
+                <li value="4"><srai>INCREMENT CYBER</srai></li>
+                <li value="5"><srai>INCREMENT INFRA</srai></li>
+            </condition>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>INCREMENT WEB</pattern>
+        <template>
+            <think>
+                <condition name="a_web">
+                    <li value="0"><set name="a_web">1</set></li>
+                    <li value="1"><set name="a_web">2</set></li>
+                    <li value="2"><set name="a_web">3</set></li>
+                </condition>
+            </think>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>INCREMENT BACKEND</pattern>
+        <template>
+            <think>
+                <condition name="a_backend">
+                    <li value="0"><set name="a_backend">1</set></li>
+                    <li value="1"><set name="a_backend">2</set></li>
+                    <li value="2"><set name="a_backend">3</set></li>
+                </condition>
+            </think>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>INCREMENT MOBILE</pattern>
+        <template>
+            <think>
+                <condition name="a_mobile">
+                    <li value="0"><set name="a_mobile">1</set></li>
+                    <li value="1"><set name="a_mobile">2</set></li>
+                    <li value="2"><set name="a_mobile">3</set></li>
+                </condition>
+            </think>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>INCREMENT CYBER</pattern>
+        <template>
+            <think>
+                <condition name="a_cyber">
+                    <li value="0"><set name="a_cyber">1</set></li>
+                    <li value="1"><set name="a_cyber">2</set></li>
+                    <li value="2"><set name="a_cyber">3</set></li>
+                </condition>
+            </think>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>INCREMENT INFRA</pattern>
+        <template>
+            <think>
+                <condition name="a_infra">
+                    <li value="0"><set name="a_infra">1</set></li>
+                    <li value="1"><set name="a_infra">2</set></li>
+                    <li value="2"><set name="a_infra">3</set></li>
+                </condition>
+            </think>
+        </template>
+    </category>
+    
+    <!-- Result logic to display -->
+    <category>
+        <pattern>RESULT</pattern>
+        <template>
+            <condition name="stage">
+                <li value="end">
+                    <srai>RESULT 3</srai>
+                    <br /><br />
+                    <srai>AGAIN</srai>
+                </li>
+                <li><srai>FALLBACK</srai></li>
+            </condition>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>RESULT 3</pattern>
+        <template>
+            <think>
+                <set name="next">RESULT 2</set>
+                <condition name="a_web">
+                    <li value="3"><set name="next">CHOOSE WEB</set></li>
+                </condition>
+                <condition name="a_backend">
+                    <li value="3"><set name="next">CHOOSE BACKEND</set></li>
+                </condition>
+                <condition name="a_mobile">
+                    <li value="3"><set name="next">CHOOSE MOBILE</set></li>
+                </condition>
+                <condition name="a_cyber">
+                    <li value="3"><set name="next">CHOOSE CYBER</set></li>
+                </condition>
+                <condition name="a_infra">
+                    <li value="3"><set name="next">CHOOSE INFRA</set></li>
+                </condition>
+            </think>
+            <srai><get name="next" /></srai>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>RESULT 2</pattern>
+        <template>
+            <think>
+                <set name="next">RESULT 1</set>
+                <condition name="a_web">
+                    <li value="2"><set name="next">CHOOSE WEB</set></li>
+                </condition>
+                <condition name="a_backend">
+                    <li value="2"><set name="next">CHOOSE BACKEND</set></li>
+                </condition>
+                <condition name="a_mobile">
+                    <li value="2"><set name="next">CHOOSE MOBILE</set></li>
+                </condition>
+                <condition name="a_cyber">
+                    <li value="2"><set name="next">CHOOSE CYBER</set></li>
+                </condition>
+                <condition name="a_mobile">
+                    <li value="2"><set name="next">CHOOSE INFRA</set></li>
+                </condition>
+            </think>
+            <srai><get name="next" /></srai>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>RESULT 1</pattern>
+        <template>
+            You align well with one of:<br />
+            <condition name="a_web">
+                <li value="1"><br />- Web engineering</li>
+            </condition>
+            <condition name="a_backend">
+                <li value="1"><br />- Backend engineering</li>
+            </condition>
+            <condition name="a_mobile">
+                <li value="1"><br />- Mobile engineering</li>
+            </condition>
+            <condition name="a_cyber">
+                <li value="1"><br />- Cybersecurity engineering</li>
+            </condition>
+            <condition name="a_infra">
+                <li value="1"><br />- Infrastructure engineering</li>
+            </condition>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>CHOOSE WEB</pattern>
+        <template>
+            You should become a full-stack/web developer!
+        </template>
+    </category>
+    
+    <category>
+        <pattern>CHOOSE BACKEND</pattern>
+        <template>
+            You should become a backend engineer!
+        </template>
+    </category>
+    
+    <category>
+        <pattern>CHOOSE MOBILE</pattern>
+        <template>
+            You should become an iOS or Android mobile engineer!
+        </template>
+    </category>
+    
+    <category>
+        <pattern>CHOOSE CYBER</pattern>
+        <template>
+            You should become a cyber security engineer!
+        </template>
+    </category>
+    
+    <category>
+        <pattern>CHOOSE INFRA</pattern>
+        <template>
+            You should become an infrastructure or devops engineer!
+        </template>
+    </category>
+    
+    <!-- fallback -->
+    <category>
+        <pattern>AGAIN</pattern>
+        <template>
+            If you'd like to try the quiz again, reply with 'start quiz'.
+        </template>
+    </category>
+    
+    <category>
+        <pattern>OPTIONS</pattern>
+        <template>
+            Please enter a number representing one of the options above (1, 2, 3, 4, or 5)
+        </template>
+    </category>
+    
+    <category>
+        <pattern>*</pattern>
+        <template>
+            <condition name="stage">
+                <li value="end">
+                    The quiz is over!<br /><br />
+                    If you'd like to see your result again, reply 'result'<br />
+                    If you'd like to start the quiz gain, reply 'start quiz'.
+                </li>
+                <li value="q1"><srai>OPTIONS</srai></li>
+                <li value="q2"><srai>OPTIONS</srai></li>
+                <li value="q3"><srai>OPTIONS</srai></li>
+                <li>I don't understand your message</li>
+            </condition>
+        </template>
+    </category>
+
+</aiml>
